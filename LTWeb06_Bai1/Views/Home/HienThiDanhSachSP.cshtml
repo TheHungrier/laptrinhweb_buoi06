@@ -1,0 +1,106 @@
+﻿@model IEnumerable<LTWeb06_Bai1.Models.SanPham>
+@{
+    ViewBag.Title = "Danh sách sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .category-menu {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+
+        .category-menu a {
+            text-decoration: none;
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 6px;
+            color: #333;
+            transition: 0.2s;
+        }
+
+            .category-menu a:hover {
+                background: #007bff;
+                color: #fff;
+            }
+
+        .category-menu .active {
+            background: #007bff;
+            color: #fff;
+        }
+
+    .filter-box {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .filter-box input {
+            padding: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+    .filter-button {
+        background-color: #007bff;
+        color: white;
+        padding: 6px 15px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+    }
+
+        .filter-button:hover {
+            background-color: #0056b3;
+        }
+</style>
+
+<div class="container">
+    <h2 class="section-title">@ViewBag.TenLoai</h2>
+    <div class="category-menu">
+        <a href="@Url.Action("HienThiDanhSachSP", "Home")" class="@(Request["maLoai"] == null ? "active" : "")">Tất cả</a>
+        @foreach (var loai in ViewBag.LoaiList)
+        {
+            <a href="@Url.Action("HienThiDanhSachSP", "Home", new { maLoai = loai.MaLoai })"
+               class="@(Request["maLoai"] == loai.MaLoai.ToString() ? "active" : "")">
+                @loai.TenLoai
+            </a>
+        }
+    </div>
+
+    <form action="@Url.Action("HienThiDanhSachSP", "Home")" method="get">
+        <div class="filter-box">
+            <input type="hidden" name="maLoai" value="@Request["maLoai"]" />
+            <label>Tên sản phẩm:</label>
+            <input type="text" name="tenSP" placeholder="Nhập tên sản phẩm" value="@Request["tenSP"]" />
+
+            <label>Giá từ:</label>
+            <input type="number" name="giaTu" placeholder="0" value="@Request["giaTu"]" />
+
+            <label>đến:</label>
+            <input type="number" name="giaDen" placeholder="10000000" value="@Request["giaDen"]" />
+
+            <button type="submit" class="filter-button">Tìm kiếm</button>
+        </div>
+    </form>
+
+
+    <div class="card-container">
+        @foreach (var p in Model)
+        {
+            <div class="card">
+                <div class="card-img-container">
+                    <img src="@p.Hinh" alt="@p.TenSanPham" class="card-img">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">@p.TenSanPham</h3>
+                    <p class="card-text">Giá: @p.Gia.ToString("N0") đ</p>
+                    <a href="@Url.Action("HienThiChiTietSP", "Home", new { id = p.MaSanPham })" class="card-button">Xem Chi Tiết</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

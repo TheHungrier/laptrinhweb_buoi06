@@ -1,0 +1,27 @@
+﻿@model LTWeb06_Bai1.Models.SanPham
+@{
+    ViewBag.Title = "Chi tiết sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <div class="container">
+        <div class="product-detail">
+            <div class="product-image">
+                <img id="detail-image" src="@Model.Hinh" alt="@Model.TenSanPham">
+            </div>
+            <div class="product-info">
+                <h1 id="detail-title" class="product-title">@Model.TenSanPham</h1>
+                <p id="detail-price" class="product-price">@Model.Gia.ToString("N0") đ</p>
+                <p id="detail-description" class="product-description">
+                    @Model.GhiChu
+                </p>
+
+                <div class="product-actions">
+                    <button class="btn-buy">Mua Ngay</button>
+                    <a class="card-button" href="@Url.Action("Index", "Home")">Quay Lại</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

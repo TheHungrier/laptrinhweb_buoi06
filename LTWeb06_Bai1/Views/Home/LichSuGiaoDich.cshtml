@@ -1,0 +1,60 @@
+﻿@model List<LTWeb06_Bai1.Models.HoaDon>
+@{
+    ViewBag.Title = "Lịch Sử Giao Dịch";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<main>
+    <div class="container">
+        <h2 class="section-title">Lịch Sử Giao Dịch</h2>
+
+        @if (Model == null || !Model.Any())
+        {
+            <p>Bạn chưa có giao dịch nào.</p>
+        }
+        else
+        {
+            foreach (var hoaDon in Model)
+            {
+                <div class="table-container">
+                    <h3>Hóa Đơn #@hoaDon.MaHoaDon</h3>
+                    <p>Ngày tạo: @hoaDon.NgayTao.ToString("dd/MM/yyyy")</p>
+                    <p>Mã khách hàng: @hoaDon.MaKhachHang</p>
+
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Mã sản phẩm</th>
+                                <th>Mã hóa đơn</th>
+                                <th>Số Lượng</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (hoaDon.ChiTietList != null && hoaDon.ChiTietList.Any())
+                            {
+                                foreach (var ct in hoaDon.ChiTietList)
+                                {
+                                    <tr>
+                                        <td>@ct.MaSanPham</td>
+                                        <td>@ct.MaHoaDon</td>
+                                        <td>@ct.SoLuong</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5">Không có chi tiết hóa đơn.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+
+        <div style="margin-top:20px;">
+            <a class="card-button" href="@Url.Action("Index", "Home")">Quay lại Trang Chủ</a>
+        </div>
+    </div>
+</main>
